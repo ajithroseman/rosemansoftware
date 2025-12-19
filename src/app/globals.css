@@ -17,3 +17,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Make Chrome match Firefox's "thin" scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Match Firefox's "thin" */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Firefox - "thin" is approximately 12px */
+* {
+  scrollbar-width: thin; /* ~12px */
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}

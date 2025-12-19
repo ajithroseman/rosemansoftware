@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // Import the Image component
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -18,12 +19,18 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-20 3xl:px-24 4xl:max-w-7xl 4xl:px-32">
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-blue-600 hover:text-blue-700 transition duration-200">
-              RosemanSoftware
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png" // Path to your logo file in the public folder
+                alt="RosemanSoftware Logo"
+                width={200} // Adjust width as needed to fit your design
+                height={50} // Adjust height to maintain aspect ratio
+                priority // Loads the logo immediately
+              />
             </Link>
           </div>
 
