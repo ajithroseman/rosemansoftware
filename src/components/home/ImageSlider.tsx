@@ -92,7 +92,7 @@ const ImageSlider = () => {
   };
 
 return (
-  <div className="relative w-full h-[50vh] sm:h-[400px] md:h-[800px] overflow-hidden shadow-xl mt-4">
+  <div className="relative w-full h-[50vh] sm:h-[400px] md:h-[800px] overflow-hidden shadow-xl">
     {/* Slides container */}
     <div 
       className="flex transition-transform duration-500 ease-in-out h-full"
