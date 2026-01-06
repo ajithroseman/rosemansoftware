@@ -1,13 +1,27 @@
 // app/page.tsx
 import SplitNav from '@/components/services/SplitNav'; // Adjust path if needed
+import HeroAnimation from '@/components/services/HeroAnimation';
 
 export default function Page() {
   return (
     <main className="min-h-screen font-sans">
       
-      {/* Optional Hero Section (Starts above the sticky nav) */}
-      <div className="h-64 bg-slate-900 flex items-center justify-center text-white">
-        <h1 className="text-4xl font-bold">Roseman Services</h1>
+      {/* HERO SECTION */}
+      {/* I increased height to h-[500px] to fit the animations nicely */}
+      <div className="relative min-h-[500px] bg-slate-900 flex flex-col items-center justify-center text-white overflow-hidden pt-20 pb-10">
+        
+        {/* Background Gradient Effect (Optional) */}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-slate-900 to-slate-800 z-0"></div>
+        
+        {/* Content Content */}
+        <div className="z-10 text-center">
+          <h1 className="text-5xl font-bold mb-2">Services We Offer</h1>
+          <p className="text-slate-400 mb-10">Hardware Precision & Software Innovation</p>
+          
+          {/* INSERT ANIMATIONS HERE */}
+          <HeroAnimation />
+        </div>
+        
       </div>
 
       {/* Insert the Navigation Component Here */}
