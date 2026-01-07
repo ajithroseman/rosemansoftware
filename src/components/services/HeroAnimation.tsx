@@ -112,7 +112,7 @@ export default function HeroAnimations() {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-center items-center gap-16 mt-20 px-4 w-full max-w-6xl mx-auto">
+    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 mt-5 md:mt-20 px-4 w-full max-w-6xl mx-auto">
       
       {/* 1. HARDWARE COOLER */}
         {/* 1. ENHANCED 3D CPU COOLER (Fixed Fan Rotation) */}
@@ -165,7 +165,7 @@ export default function HeroAnimations() {
 
       {/* 2. LAPTOP */}
       <div className="flex flex-col items-center -mt-8 mx-4 transform scale-110 group z-20">
-        <div className="relative w-72 h-72 rounded-3xl flex items-center justify-center group-hover:shadow-[0_0_80px_rgba(59,130,246,0.15)] transition-all duration-500">
+        <div className="relative w-72 h-60 md:h-72 rounded-3xl flex items-center justify-center group-hover:shadow-[0_0_80px_rgba(59,130,246,0.15)] transition-all duration-500">
           <div className="absolute w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
           <div className="relative w-48 h-32 perspective-1000">
             <div ref={laptopScreenRef} className="absolute top-0 left-0 w-full h-full bg-slate-900 rounded-t-lg border-[3px] border-slate-700 origin-bottom animate-laptopOpen transform-style-3d shadow-2xl overflow-hidden">
@@ -183,28 +183,66 @@ export default function HeroAnimations() {
               <div className="w-16 h-0.5 bg-slate-500 mx-auto mt-1 rounded opacity-50"></div>
             </div>
           </div>
-          <div className="absolute w-[120%] h-[120%] border border-blue-500/10 rounded-full animate-spin-slow-reverse pointer-events-none"></div>
         </div>
-        <p className="text-white mt-2 text-xl font-bold tracking-tight drop-shadow-md">Roseman Services</p>
+        <p className="text-sky-300 -mt-8 text-xl font-bold tracking-tight drop-shadow-md mb-5">system support</p>
       </div>
 
-      {/* 3. SOFTWARE STACK */}
+      {/* 3. Web Development - Code Editor Design */}
       <div className="flex flex-col items-center group transform hover:scale-105 transition-transform duration-300">
-        <div ref={stackContainerRef} className="relative w-44 h-44 bg-gradient-to-br from-indigo-900/90 to-violet-950/90 rounded-2xl border border-indigo-700/50 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm">
-          <div className="relative w-24 h-32 transform-style-3d rotate-x-60 rotate-z-45 translate-y-6">
-            <div ref={stackLayerRefs[0]} className="absolute bottom-0 w-full h-12 bg-slate-800 rounded border border-slate-600 shadow-lg animate-stack-bounce delay-0 z-10 flex items-center justify-center">
-               <span className="text-[8px] text-slate-400 font-bold -rotate-45">DATA</span>
+        {/* The Main Container */}
+        <div className="relative w-44 h-44 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl border border-indigo-500/30 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow duration-500">
+          
+          {/* Background Glow */}
+          <div className="absolute inset-0 bg-indigo-500/5 animate-pulse"></div>
+
+          {/* The Terminal/Editor Window */}
+          <div className="relative w-32 h-24 bg-[#0d1117] rounded-lg border border-slate-700 shadow-2xl flex flex-col overflow-hidden transform group-hover:-translate-y-1 transition-transform">
+            
+            {/* Window Header */}
+            <div className="h-4 bg-[#161b22] flex items-center px-2 gap-1 border-b border-slate-800">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500/70"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/70"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500/70"></div>
             </div>
-            <div ref={stackLayerRefs[1]} className="absolute bottom-8 w-full h-12 bg-indigo-900/90 rounded border border-indigo-500 shadow-lg animate-stack-bounce delay-150 z-20 flex items-center justify-center backdrop-blur-sm">
-               <span className="text-[8px] text-indigo-300 font-bold -rotate-45">API</span>
+
+            {/* Code Area */}
+            <div className="p-3 space-y-1.5">
+              {/* Line 1: Function name */}
+              <div className="flex gap-1">
+                <div className="h-1.5 w-8 bg-purple-400/60 rounded"></div>
+                <div className="h-1.5 w-12 bg-blue-400/60 rounded"></div>
+              </div>
+              {/* Line 2: Indented logic */}
+              <div className="flex gap-1 ml-3">
+                <div className="h-1.5 w-16 bg-emerald-400/40 rounded animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+              </div>
+              {/* Line 3: Indented logic */}
+              <div className="flex gap-1 ml-3">
+                <div className="h-1.5 w-10 bg-orange-400/40 rounded animate-[pulse_2s_ease-in-out_infinite]"></div>
+                <div className="h-1.5 w-4 bg-slate-600 rounded"></div>
+              </div>
+              {/* Line 4: Closing brace */}
+              <div className="h-1.5 w-4 bg-purple-400/60 rounded"></div>
             </div>
-            <div ref={stackLayerRefs[2]} className="absolute bottom-16 w-full h-12 bg-white/90 rounded border border-indigo-300 shadow-lg animate-stack-bounce delay-300 z-30 flex items-center justify-center">
-               <div className="w-8 h-4 bg-indigo-100 rounded-sm -rotate-45 border border-indigo-200"></div>
+
+            {/* Floating Bracket Symbol */}
+            <div className="absolute right-2 bottom-2 text-indigo-400/40 font-mono text-xl select-none group-hover:text-indigo-400/80 transition-colors">
+              {`{ }`}
             </div>
-            <div className="absolute left-1/2 bottom-0 h-24 w-0.5 bg-indigo-500/30 transform -translate-x-1/2 -z-10"></div>
+          </div>
+
+          {/* Decorative Floating "Tags" */}
+          <div className="absolute top-6 right-4 px-1.5 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-[7px] text-blue-300 font-mono animate-bounce">
+            HTML
+          </div>
+          <div className="absolute bottom-6 left-4 px-1.5 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-[7px] text-emerald-300 font-mono animate-bounce [animation-delay:0.5s]">
+            CSS
           </div>
         </div>
-        <p className="text-indigo-300 mt-6 text-sm font-bold uppercase tracking-widest drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]">Web Development</p>
+
+        <p className="text-indigo-300 mt-6 text-sm font-bold uppercase tracking-widest drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]">
+          Web Development
+        </p>
       </div>
     </div>
   );

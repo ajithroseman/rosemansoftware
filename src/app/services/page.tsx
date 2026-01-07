@@ -15,8 +15,8 @@ export default function Page() {
         
         {/* Content Content */}
         <div className="z-10 text-center">
-          <h1 className="text-5xl font-bold mb-2">Services We Offer</h1>
-          <p className="text-slate-400 mb-10">Hardware Precision & Software Innovation</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-2">Services We Offer</h1>
+          <p className="text-slate-400 mb-3 md:mb-10">Hardware Precision & Software Innovation</p>
           
           {/* INSERT ANIMATIONS HERE */}
           <HeroAnimation />
