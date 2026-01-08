@@ -39,7 +39,7 @@ export default function SplitNav() {
 
   return (
     // Adjusted 'top' if your main header is shorter on mobile (e.g., top-14 md:top-16)
-    <nav className="sticky top-14 md:top-16 z-40 flex w-full shadow-lg border-b border-gray-200 bg-white">
+    <nav className="sticky top-16 z-40 flex w-full shadow-lg border-b border-gray-200 bg-white">
       {/* Left Side: Hardware */}
       <button
         onClick={() => scrollToSection('hardware-section')}
@@ -56,7 +56,8 @@ export default function SplitNav() {
             : 'bg-white text-gray-500 hover:bg-gray-50'}
         `}
       >
-        Hardware
+        <span className="md:hidden">Hardware</span>
+        <span className="hidden md:inline">Hardware services</span>
       </button>
 
       {/* Right Side: Web Development */}
@@ -76,8 +77,8 @@ export default function SplitNav() {
         `}
       >
         {/* Responsive Text: "Web Dev" on mobile, "Web Development" on desktop */}
-        <span className="md:hidden">Web Dev</span>
-        <span className="hidden md:inline">Web Development</span>
+        <span className="md:hidden">Web Development</span>
+        <span className="hidden md:inline">Web Development services</span>
       </button>
     </nav>
   );
