@@ -1,84 +1,62 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+// Define types for our particles to keep TypeScript happy
+type HeatParticle = {
+  id: number;
+  left: string;
+  delay: string;
+  duration: string;
+};
+
+type DataParticle = {
+  id: number;
+  left: string;
+  color: string;
+  size: string;
+  delay: string;
+  duration: string;
+};
 
 export default function HeroAnimations() {
-  const fanRef = useRef<HTMLDivElement>(null);
-  const laptopScreenRef = useRef<HTMLDivElement>(null);
-  const screenContentRef = useRef<HTMLDivElement>(null); 
-  const stackContainerRef = useRef<HTMLDivElement>(null); 
-  const stackLayerRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
-  const cpuHeatRef = useRef<HTMLDivElement>(null);
-  const rgbLightsRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [heatParticles, setHeatParticles] = useState<HeatParticle[]>([]);
+  const [dataParticles, setDataParticles] = useState<DataParticle[]>([]);
+  
+  const screenContentRef = useRef<HTMLDivElement>(null);
+  const laptopScreenRef = useRef<HTMLDivElement>(null); // Fixed: Ref restored
 
-  // --- EFFECT 1: HARDWARE PARTICLES & RGB ---
   useEffect(() => {
-    // 1. Heat particles
-    const createHeatParticle = () => {
-      if (!cpuHeatRef.current) return;
-      const particle = document.createElement('div');
-      particle.className = 'absolute w-1 h-1 bg-gradient-to-t from-blue-400 to-cyan-300 rounded-full pointer-events-none';
-      particle.style.left = `${30 + Math.random() * 40}%`;
-      particle.style.bottom = '15%';
-      particle.style.opacity = '0';
-      particle.style.filter = 'blur(1px)';
-      cpuHeatRef.current.appendChild(particle);
-      
-      const duration = 1.5 + Math.random();
-      const horizontal = (Math.random() - 0.5) * 30;
-      void particle.offsetWidth; // Force reflow
-      particle.style.transition = `all ${duration}s cubic-bezier(0.4, 0, 0.2, 1)`;
-      particle.style.transform = `translate(${horizontal}px, -80px) scale(0)`;
-      particle.style.opacity = '0.8';
-      
-      setTimeout(() => particle.remove(), duration * 1000);
-    };
-    const particleInterval = setInterval(createHeatParticle, 200);
-    
-    // 2. RGB cycling
-    let rgbHue = 0;
-    const rgbInterval = setInterval(() => {
-      if (rgbLightsRef.current) {
-        rgbHue = (rgbHue + 5) % 360;
-        rgbLightsRef.current.style.boxShadow = `0 0 15px hsl(${rgbHue}, 100%, 60%), inset 0 0 10px hsl(${rgbHue}, 100%, 40%)`;
-        rgbLightsRef.current.style.borderColor = `hsl(${rgbHue}, 80%, 70%)`;
-      }
-    }, 50);
+    setMounted(true);
 
-    // 3. Data Flow
-    const createDataParticle = () => {
-      if (!stackContainerRef.current) return;
-      const particle = document.createElement('div');
-      const sizes = ['w-0.5 h-2', 'w-1 h-1', 'w-1.5 h-0.5'];
-      const colors = ['bg-cyan-400', 'bg-blue-400', 'bg-indigo-400'];
-      particle.className = `absolute ${sizes[Math.floor(Math.random() * sizes.length)]} ${colors[Math.floor(Math.random() * colors.length)]} rounded-full z-40 pointer-events-none`;
-      particle.style.left = `${20 + Math.random() * 60}%`;
-      particle.style.bottom = '10%'; 
-      particle.style.opacity = '0';
-      stackContainerRef.current.appendChild(particle);
-      
-      const duration = 2 + Math.random();
-      void particle.offsetWidth;
-      particle.style.transition = `all ${duration}s ease-out`;
-      particle.style.bottom = '80%';
-      particle.style.opacity = '1';
-      setTimeout(() => particle.style.opacity = '0', duration * 700);
-      setTimeout(() => particle.remove(), duration * 1000);
-    };
-    const dataFlowInterval = setInterval(createDataParticle, 600);
+    // 1. Generate Heat Particles only on client
+    const newHeatParticles = Array.from({ length: 6 }).map((_, i) => ({
+      id: i,
+      left: `${30 + Math.random() * 40}%`,
+      delay: `${Math.random() * 2}s`,
+      duration: `${1.5 + Math.random()}s`
+    }));
+    setHeatParticles(newHeatParticles);
 
-    return () => {
-      clearInterval(particleInterval);
-      clearInterval(rgbInterval);
-      clearInterval(dataFlowInterval);
-    };
+    // 2. Generate Data Particles only on client
+    const newDataParticles = Array.from({ length: 5 }).map((_, i) => ({
+      id: i,
+      left: `${20 + Math.random() * 60}%`,
+      color: ['bg-cyan-400', 'bg-blue-400', 'bg-indigo-400'][Math.floor(Math.random() * 3)],
+      size: ['w-0.5 h-2', 'w-1 h-1', 'w-1.5 h-0.5'][Math.floor(Math.random() * 3)],
+      delay: `${Math.random() * 3}s`,
+      duration: `${2 + Math.random()}s`
+    }));
+    setDataParticles(newDataParticles);
   }, []);
 
-  // --- EFFECT 2: LAPTOP TYPING ---
+  // --- EFFECT: LAPTOP TYPING ---
   useEffect(() => {
     const createTypingEffect = () => {
       if (!screenContentRef.current) return;
       const codeLines = ["const services = {", "  hardware: 'Repair',", "  software: 'Web Dev',", "  status: 'Online',", "};"];
+      
       screenContentRef.current.innerHTML = '';
       
       codeLines.forEach((line, lineIndex) => {
@@ -88,14 +66,15 @@ export default function HeroAnimations() {
         
         line.split('').forEach((char, charIndex) => {
           setTimeout(() => {
+            if (!screenContentRef.current) return;
             const span = document.createElement('span');
             span.className = char === ' ' ? '' : (lineIndex === 0 || lineIndex === 4 ? 'text-purple-400' : 'text-green-400');
             span.textContent = char;
             lineDiv.appendChild(span);
             
-            // Cursor
-            const oldCursors = screenContentRef.current?.querySelectorAll('.typing-cursor');
-            oldCursors?.forEach(c => c.remove());
+            const oldCursor = screenContentRef.current?.querySelector('.typing-cursor');
+            if (oldCursor) oldCursor.remove();
+
             if (lineIndex < codeLines.length) {
                const cursor = document.createElement('span');
                cursor.className = 'typing-cursor inline-block w-[2px] h-2 bg-green-400 ml-0.5';
@@ -104,37 +83,36 @@ export default function HeroAnimations() {
           }, (lineIndex * 400) + (charIndex * 30));
         });
       });
-      setTimeout(() => { if (screenContentRef.current) screenContentRef.current.innerHTML = ''; }, 6000);
     };
-    setTimeout(createTypingEffect, 1000);
+
+    const startTimeout = setTimeout(createTypingEffect, 1000);
     const typingInterval = setInterval(createTypingEffect, 6500);
-    return () => clearInterval(typingInterval);
+
+    return () => {
+      clearTimeout(startTimeout);
+      clearInterval(typingInterval);
+    };
   }, []);
+
+  if (!mounted) return <div className="h-96"></div>;
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 mt-5 md:mt-20 px-4 w-full max-w-6xl mx-auto">
-      
+
+
       {/* 1. HARDWARE COOLER */}
-        {/* 1. ENHANCED 3D CPU COOLER (Fixed Fan Rotation) */}
-      <div className="flex flex-col items-center group transform hover:scale-105 transition-transform duration-300">
+      <div className="flex flex-col items-center group transform hover:scale-105 transition-transform duration-300 will-change-transform">
         <div className="relative w-44 h-44 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 rounded-2xl border border-slate-700/50 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow duration-500">
           
-          {/* Circuit Background */}
-          <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 opacity-30 pointer-events-none">
             <div className="absolute top-1/4 left-1/4 w-1/2 h-1/2 border border-blue-500/20 rounded-full animate-ping-slow"></div>
           </div>
           
-          {/* Heat Spreader Base */}
           <div className="absolute w-32 h-32 bg-gradient-to-br from-blue-900/20 to-cyan-900/10 rounded-lg border border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.2)]"></div>
           
-          {/* CPU Die & Fan Assembly */}
           <div className="relative w-20 h-20 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg border-2 border-slate-600 shadow-inner flex items-center justify-center z-10">
-            
-            {/* The Spinning Element */}
-            <div ref={fanRef} className="absolute inset-0 flex items-center justify-center">
-              <div className="relative w-24 h-24 animate-spin-slow">
-                
-                {/* BLADES: Added 'top-1/2 -mt-1' to force them to the exact center */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative w-24 h-24 animate-spin-slow will-change-transform">
                 {[0, 45, 90, 135, 180, 225, 270, 315].map((rotation) => (
                   <div 
                     key={rotation}
@@ -142,20 +120,32 @@ export default function HeroAnimations() {
                     style={{ transform: `rotate(${rotation}deg)` }}
                   ></div>
                 ))}
-
               </div>
-              
-              {/* RGB Hub (Stationary or separate layer) */}
-              <div ref={rgbLightsRef} className="absolute w-8 h-8 bg-slate-900 rounded-full z-20 border-2 border-slate-500 shadow-lg"></div>
+              <div 
+                className="absolute w-8 h-8 bg-slate-900 rounded-full z-20 border-2 shadow-lg mobile-optimized-shadow"
+                style={{ animation: 'rgbCycle 4s linear infinite' }}
+              ></div>
             </div>
           </div>
           
-          {/* Heat Pipe Decoration */}
           <div className="absolute -top-4 w-20 h-8 border-t-4 border-slate-600 rounded-t-full"></div>
           
-          {/* Particles & Text */}
-          <div ref={cpuHeatRef} className="absolute inset-0 pointer-events-none z-0"></div>
-          <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-slate-900/80 px-2 py-1 rounded border border-slate-700">
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+             {heatParticles.map((p) => (
+               <div 
+                 key={p.id}
+                 className="absolute w-1 h-1 bg-gradient-to-t from-blue-400 to-cyan-300 rounded-full blur-[0.5px]"
+                 style={{
+                   left: p.left,
+                   bottom: '15%',
+                   animation: `floatUp ${p.duration} ease-out infinite`,
+                   animationDelay: p.delay
+                 }}
+               />
+             ))}
+          </div>
+
+          <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-slate-900/80 px-2 py-1 rounded border border-slate-700 z-30">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
             <span className="text-[10px] text-slate-300 font-mono">38°C</span>
           </div>
@@ -168,7 +158,7 @@ export default function HeroAnimations() {
         <div className="relative w-72 h-60 md:h-72 rounded-3xl flex items-center justify-center group-hover:shadow-[0_0_80px_rgba(59,130,246,0.15)] transition-all duration-500">
           <div className="absolute w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
           <div className="relative w-48 h-32 perspective-1000">
-            <div ref={laptopScreenRef} className="absolute top-0 left-0 w-full h-full bg-slate-900 rounded-t-lg border-[3px] border-slate-700 origin-bottom animate-laptopOpen transform-style-3d shadow-2xl overflow-hidden">
+            <div ref={laptopScreenRef} className="absolute top-0 left-0 w-full h-full bg-slate-900 rounded-t-lg border-[3px] border-slate-700 origin-bottom animate-laptopOpen transform-style-3d shadow-2xl overflow-hidden will-change-transform">
               <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent z-20 pointer-events-none"></div>
               <div className="w-full h-full bg-slate-950 p-2 flex flex-col relative overflow-hidden">
                 <div className="flex gap-1.5 mb-2 opacity-50">
@@ -187,62 +177,54 @@ export default function HeroAnimations() {
         <p className="text-sky-300 -mt-8 text-xl font-bold tracking-tight drop-shadow-md mb-5">system support</p>
       </div>
 
-      {/* 3. Web Development - Code Editor Design */}
-      <div className="flex flex-col items-center group transform hover:scale-105 transition-transform duration-300">
-        {/* The Main Container */}
+      {/* 3. Web Development */}
+      <div className="flex flex-col items-center group transform hover:scale-105 transition-transform duration-300 will-change-transform">
         <div className="relative w-44 h-44 bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl border border-indigo-500/30 flex items-center justify-center shadow-2xl overflow-hidden backdrop-blur-sm group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-shadow duration-500">
-          
-          {/* Background Glow */}
           <div className="absolute inset-0 bg-indigo-500/5 animate-pulse"></div>
 
-          {/* The Terminal/Editor Window */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+             {dataParticles.map((p) => (
+               <div 
+                 key={p.id}
+                 className={`absolute ${p.size} ${p.color} rounded-full z-40`}
+                 style={{
+                   left: p.left,
+                   bottom: '10%',
+                   animation: `dataFlow ${p.duration} ease-out infinite`,
+                   animationDelay: p.delay
+                 }}
+               />
+             ))}
+          </div>
+
           <div className="relative w-32 h-24 bg-[#0d1117] rounded-lg border border-slate-700 shadow-2xl flex flex-col overflow-hidden transform group-hover:-translate-y-1 transition-transform">
-            
-            {/* Window Header */}
             <div className="h-4 bg-[#161b22] flex items-center px-2 gap-1 border-b border-slate-800">
               <div className="w-1.5 h-1.5 rounded-full bg-red-500/70"></div>
               <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/70"></div>
               <div className="w-1.5 h-1.5 rounded-full bg-green-500/70"></div>
             </div>
-
-            {/* Code Area */}
             <div className="p-3 space-y-1.5">
-              {/* Line 1: Function name */}
               <div className="flex gap-1">
                 <div className="h-1.5 w-8 bg-purple-400/60 rounded"></div>
                 <div className="h-1.5 w-12 bg-blue-400/60 rounded"></div>
               </div>
-              {/* Line 2: Indented logic */}
               <div className="flex gap-1 ml-3">
                 <div className="h-1.5 w-16 bg-emerald-400/40 rounded animate-[pulse_1.5s_ease-in-out_infinite]"></div>
               </div>
-              {/* Line 3: Indented logic */}
               <div className="flex gap-1 ml-3">
                 <div className="h-1.5 w-10 bg-orange-400/40 rounded animate-[pulse_2s_ease-in-out_infinite]"></div>
                 <div className="h-1.5 w-4 bg-slate-600 rounded"></div>
               </div>
-              {/* Line 4: Closing brace */}
               <div className="h-1.5 w-4 bg-purple-400/60 rounded"></div>
             </div>
-
-            {/* Floating Bracket Symbol */}
             <div className="absolute right-2 bottom-2 text-indigo-400/40 font-mono text-xl select-none group-hover:text-indigo-400/80 transition-colors">
               {`{ }`}
             </div>
           </div>
-
-          {/* Decorative Floating "Tags" */}
-          <div className="absolute top-6 right-4 px-1.5 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-[7px] text-blue-300 font-mono animate-bounce">
-            HTML
-          </div>
-          <div className="absolute bottom-6 left-4 px-1.5 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-[7px] text-emerald-300 font-mono animate-bounce [animation-delay:0.5s]">
-            CSS
-          </div>
+          <div className="absolute top-6 right-4 px-1.5 py-0.5 rounded bg-blue-500/20 border border-blue-500/40 text-[7px] text-blue-300 font-mono animate-bounce">HTML</div>
+          <div className="absolute bottom-6 left-4 px-1.5 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-[7px] text-emerald-300 font-mono animate-bounce [animation-delay:0.5s]">CSS</div>
         </div>
-
-        <p className="text-indigo-300 mt-6 text-sm font-bold uppercase tracking-widest drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]">
-          Web Development
-        </p>
+        <p className="text-indigo-300 mt-6 text-sm font-bold uppercase tracking-widest drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]">Web Development</p>
       </div>
     </div>
   );

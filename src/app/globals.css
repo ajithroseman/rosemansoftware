@@ -45,23 +45,17 @@ body {
 }
 
 
+/* --- 3D UTILITIES --- */
 .perspective-1000 { 
   perspective: 1000px; 
 }
 .transform-style-3d { 
   transform-style: preserve-3d; 
 }
-.rotate-x-60 { 
-  transform: rotateX(60deg) rotateZ(-45deg); 
-}
-.delay-150 { 
-  animation-delay: 150ms; 
-}
-.delay-300 { 
-  animation-delay: 300ms; 
-}
 
-/* Laptop Opening Animation */
+/* --- ANIMATIONS --- */
+
+/* 1. Laptop Opening */
 @keyframes laptopOpen {
   0% { transform: rotateX(-90deg); }
   50% { transform: rotateX(0deg); }
@@ -71,7 +65,7 @@ body {
   animation: laptopOpen 6s ease-in-out infinite; 
 }
 
-/* Fan Spin */
+/* 2. Fan Spin */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -79,20 +73,8 @@ body {
 .animate-spin-slow { 
   animation: spin 4s linear infinite; 
 }
-.animate-spin-slow-reverse { 
-  animation: spin 15s linear infinite reverse; 
-}
 
-/* Stack Bounce (Software Layers) */
-@keyframes stackBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.animate-stack-bounce { 
-  animation: stackBounce 3s ease-in-out infinite; 
-}
-
-/* Slow Ping (Heat Effect) */
+/* 3. Background Pulse */
 @keyframes pingSlow {
   75%, 100% { transform: scale(2); opacity: 0; }
 }
@@ -100,12 +82,26 @@ body {
   animation: pingSlow 3s cubic-bezier(0, 0, 0.2, 1) infinite; 
 }
 
-/* Data Float */
-@keyframes floatData {
-  0% { transform: translateY(0); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-40px); opacity: 0; }
+    
+@keyframes floatUp {
+  0% { transform: translateY(100px) scale(2); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-150px) scale(2); opacity: 0; }
 }
-.animate-float-data {
-  animation: floatData 3s linear infinite;
+@keyframes dataFlow {
+  0% { bottom: 10%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { bottom: 80%; opacity: 0; }
+}
+@keyframes rgbCycle {
+  0% { border-color: hsl(0, 80%, 70%); box-shadow: 0 0 15px hsl(0, 100%, 60%), inset 0 0 10px hsl(0, 100%, 40%); }
+  50% { border-color: hsl(180, 80%, 70%); box-shadow: 0 0 15px hsl(180, 100%, 60%), inset 0 0 10px hsl(180, 100%, 40%); }
+  100% { border-color: hsl(360, 80%, 70%); box-shadow: 0 0 15px hsl(360, 100%, 60%), inset 0 0 10px hsl(360, 100%, 40%); }
+}
+@media (max-width: 768px) {
+    .mobile-optimized-shadow {
+      box-shadow: 0 0 5px rgba(59,130,246,0.5) !important;
+      animation: none !important;
+    }
 }

@@ -55,7 +55,7 @@ export default function Services() {
         
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
           {/* Hero Section */}
-          <section className="relative py-20 overflow-hidden">
+          <section className="relative pt-20 pb-10 md:py-20 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10" />
             <div className="container mx-auto px-4 relative z-10">
               <div className="text-center max-w-3xl mx-auto">
@@ -80,7 +80,7 @@ export default function Services() {
           </section>
 
           {/* Hardware Services Grid */}
-          <section className="py-16">
+          <section className="py-10 md:py-16">
             <div className="container mx-auto px-4">
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
                 Hardware Services
@@ -284,7 +284,7 @@ export default function Services() {
 
 
           {/* Trust Signals Section */}
-          <section className="py-16 bg-white">
+          <section className="py-10 md:py-16 bg-white">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -331,7 +331,7 @@ export default function Services() {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20">
+          <section className="py-10 md:py-20">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-center text-white">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -361,7 +361,7 @@ export default function Services() {
       >
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
           {/* Hero Section */}
-          <section className="relative py-20 overflow-hidden">
+          <section className="relative pt-20 pb-10 md:py-20 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10" />
             <div className="container mx-auto px-4 relative z-10">
               <div className="text-center max-w-3xl mx-auto">
@@ -385,7 +385,7 @@ export default function Services() {
             </div>
           </section>
           {/* Website Services Grid */}
-          <section className="py-16">
+          <section className="py-10 md:py-16">
             <div className="container mx-auto px-4">
               <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
                 Website Development Services
@@ -595,7 +595,7 @@ export default function Services() {
           </section>
 
           {/* Trust Signals Section */}
-          <section className="py-16 bg-white">
+          <section className="py-10 md:py-16 bg-white">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -642,7 +642,7 @@ export default function Services() {
           </section>
 
           {/* Development Process */}
-          <section className="py-16 bg-gradient-to-b from-white to-gray-50">
+          <section className="py-10 md:py-16 bg-gradient-to-b from-white to-gray-50">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -696,7 +696,7 @@ export default function Services() {
           </section>
 
           {/* CTA Section */}
-          <section className="py-20">
+          <section className="py-10 md:py-20">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-indigo-600 rounded-3xl p-12 text-center text-white">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -719,9 +719,9 @@ export default function Services() {
         
 
         {/* Stats Section */}
-        <section className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
+        <section className="p-4 md:py-20 md:px-4 bg-gradient-to-b from-white to-gray-50">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
               {[
                 { number: "500+", label: "Hardware Repairs", icon: Cpu },
                 { number: "100+", label: "Websites Built", icon: Globe },

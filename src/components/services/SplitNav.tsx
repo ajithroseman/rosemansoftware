@@ -52,7 +52,7 @@ export default function SplitNav() {
           transition-all duration-300
           flex items-center justify-center
           ${activeSection === 'hardware' 
-            ? 'bg-blue-600 text-white shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]' 
+            ? 'bg-blue-500 text-white shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]' 
             : 'bg-white text-gray-500 hover:bg-gray-50'}
         `}
       >
@@ -72,7 +72,7 @@ export default function SplitNav() {
           transition-all duration-300
           flex items-center justify-center
           ${activeSection === 'software' 
-            ? 'bg-indigo-600 text-white shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]' 
+            ? 'bg-blue-500 text-white shadow-[inset_0_-4px_0_rgba(0,0,0,0.2)]' 
             : 'bg-white text-gray-500 hover:bg-gray-50'}
         `}
       >
